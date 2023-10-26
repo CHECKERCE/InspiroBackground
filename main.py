@@ -14,6 +14,7 @@ appdata = os.getenv("APPDATA")
 startUpFolder = os.path.join(appdata, "Microsoft", "Windows", "Start Menu", "Programs", "Startup")
 downloadPath = os.path.join(appdata, "inspiroBackground", "background.jpg")
 configPath = os.path.join(appdata, "inspiroBackground", "config.json")
+imageSaveLocation = os.path.expanduser("~/Pictures/InspiroBackground")
 
 interval = 60
 iconImage = Image.open(requests.get(iconUrl, stream=True).raw)
@@ -64,10 +65,15 @@ def end():
 def isCustomInterval(x):
     return interval not in [30, 300, 600, 900, 1800]
 
+def saveBackground():
+    os.makedirs(imageSaveLocation, exist_ok=True)
+    os.system(f"copy \"{downloadPath}\" \"{imageSaveLocation}/background-{time.time()}.jpg\"")
+
 
 icon = pystray.Icon("InspiroBackground", icon=iconImage)
 icon.menu = pystray.Menu(
     pystray.MenuItem("New Background", setBackground),
+    pystray.MenuItem("Save Background", saveBackground),
     # submenu to set interval
     pystray.MenuItem("Set interval",
                      pystray.Menu(
