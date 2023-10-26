@@ -65,9 +65,9 @@ def isCustomInterval(x):
     return interval not in [30, 300, 600, 900, 1800]
 
 
-icon = pystray.Icon("inspiroBackground", icon=iconImage)
+icon = pystray.Icon("InspiroBackground", icon=iconImage)
 icon.menu = pystray.Menu(
-    pystray.MenuItem("new Background", setBackground),
+    pystray.MenuItem("New Background", setBackground),
     # submenu to set interval
     pystray.MenuItem("Set interval",
                      pystray.Menu(
@@ -76,11 +76,12 @@ icon.menu = pystray.Menu(
                          pystray.MenuItem("5 minutes", lambda: setInterval(600), checked=lambda x: interval == 600),
                          pystray.MenuItem("10 minutes", lambda: setInterval(900), checked=lambda x: interval == 900),
                          pystray.MenuItem("15 minutes", lambda: setInterval(1800), checked=lambda x: interval == 1800),
-                         pystray.MenuItem("custom", lambda: os.startfile(os.path.abspath(configPath)),
+                         pystray.MenuItem("Custom", lambda: os.startfile(os.path.abspath(configPath)),
                                           checked=isCustomInterval),
                      )
                      ),
-    pystray.MenuItem("reload config", loadConfig),
+    pystray.MenuItem("Reload config", loadConfig),
+    pystray.MenuItem("Run at startup (put exe in the folder)", lambda: os.startfile(os.path.abspath(startUpFolder))),
     pystray.MenuItem("Exit", end)
 )
 
